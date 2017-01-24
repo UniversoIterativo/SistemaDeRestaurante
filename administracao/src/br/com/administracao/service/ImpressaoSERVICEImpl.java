@@ -473,7 +473,7 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
                 + " TOTAL A VISTA:                       R$ 115.00 "
                 + " TOTAL CREDITO:                       R$ 115.00 "
                 ;
-		this.imprime(imprimir);
+        this.impressoraCaixa.imprimir(imprimir);
 	}
 	
 	public void imprime(String texto) {

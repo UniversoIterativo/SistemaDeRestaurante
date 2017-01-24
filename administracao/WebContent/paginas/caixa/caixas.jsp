@@ -48,7 +48,7 @@
 					</a>
 				</td>
 				<td class="td-actions">
-					<a href="caixacontroller.do?acao=cancelCaixa&id=${caixa.id}"
+					<a href="impressaocontroller.do?acao=imprimirCaixa&id=${caixa.id}"
 						class="btn btn-danger btn-small">
 						<i	class="btn-icon-only icon-remove"> </i>
 					</a>
