@@ -245,6 +245,7 @@ public class ItemSERVICEImpl implements ItemSERVICE {
 					itemView.add(Integer.toString(resultset.getInt(6)));
 					itemView.add(resultset.getBigDecimal(8).toString());
 				}
+				itemView.add(resultset.getString(10));
 				listItens.put(resultset.getString(4), itemView);
 			}
 		} catch (SQLException e) {

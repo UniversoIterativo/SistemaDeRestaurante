@@ -33,7 +33,7 @@ public class ImpressaoController extends HttpServlet {
 			this.impressaoSERVICE.imprimirItensByCaixa(request.getParameter("id"));
 			//PrintWriter saida = response.getWriter();
 			//saida.println("Confira a Impressora");
-			response.sendRedirect("maincontroller.do");
+			response.sendRedirect("caixacontroller.do?acao=listCaixas");
 		}
 		if (acao != null && acao.equals("imprimirCaixaDiario")) {
 			this.impressaoSERVICE.fechamentoDoCaixaDiario();

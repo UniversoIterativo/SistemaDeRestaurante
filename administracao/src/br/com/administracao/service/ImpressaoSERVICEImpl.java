@@ -66,21 +66,26 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 	public void imprimirItensByCaixa(String idCaixa) {
 		HashMap<String, List<String>> itens = itemService.listItemsByCaixa(idCaixa);
 		String	imprimir = "";
+		String	itensImprimir = "";
+		String	canceladosImprimir = "";
 		for(Map.Entry<String, List<String>> entry : itens.entrySet()) {
-			imprimir = imprimir + entry.getKey() + " -> ";
-			//imprimir = imprimir + entry.getValue().get(0) + " - ";
-			//imprimir = imprimir + entry.getValue().get(1) + " - ";
-			//imprimir = imprimir + entry.getValue().get(2) + " - ";
-			//imprimir = imprimir + entry.getValue().get(3) + " - ";
-			imprimir = imprimir + entry.getValue().get(4) + " - ";
-			//imprimir = imprimir + entry.getValue().get(5) + " - ";
-			//imprimir = imprimir + entry.getValue().get(6) + " - ";
-			imprimir = imprimir + entry.getValue().get(7) + " - ";
-			imprimir = imprimir + entry.getValue().get(8) + "\n";
+			if(!entry.getValue().get(9).matches("CANCELADO")){
+				itensImprimir = itensImprimir + entry.getKey() + " -> ";
+				itensImprimir = itensImprimir + entry.getValue().get(4) + " - ";
+				itensImprimir = itensImprimir + entry.getValue().get(7) + " - ";
+				itensImprimir = itensImprimir + entry.getValue().get(8) + "\n";
+			} else {
+				canceladosImprimir = canceladosImprimir + entry.getKey() + " -> ";
+				canceladosImprimir = canceladosImprimir + entry.getValue().get(4) + " - ";
+				canceladosImprimir = canceladosImprimir + entry.getValue().get(7) + " - ";
+				canceladosImprimir = canceladosImprimir + entry.getValue().get(8) + "\n";
+			}
 		}
-		imprimir = imprimir
+		imprimir = "ITENS VENDIDOS: " +	itensImprimir + "\n\n" + 
+				   "ITENS CANCELADOS: " + canceladosImprimir
                 + "\n\n\n\n\n\n\n\n"
 				;
+		
 		this.impressoraCaixa.imprimir(imprimir);
 	}
 	

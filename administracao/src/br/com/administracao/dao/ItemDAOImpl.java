@@ -226,7 +226,7 @@ public class ItemDAOImpl implements ItemDAO {
 	
 	@Override
 	public ResultSet listItemsByCaixa(String idCaixa) {
-		String sql = "SELECT i.id, i.conta, i.pedido, c.titulo, c.valor, i.quantidade, i.observacao, i.valor, i.tipo FROM item as i INNER JOIN cardapio as c ON i.cardapio = c.id WHERE i.caixa = ? AND i.status != 'CANCELADO'";
+		String sql = "SELECT i.id, i.conta, i.pedido, c.titulo, c.valor, i.quantidade, i.observacao, i.valor, i.tipo, i.status FROM item as i INNER JOIN cardapio as c ON i.cardapio = c.id WHERE i.caixa = ? ORDER BY c.titulo ASC";
 		ResultSet resultado = null;
 		try {
 			PreparedStatement preparador = (PreparedStatement) conn.prepareStatement(sql);

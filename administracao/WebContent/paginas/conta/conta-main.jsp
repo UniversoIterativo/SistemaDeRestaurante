@@ -43,7 +43,7 @@
                       <td>Mesa: </td><td>${requestScope.conta.mesa}</td>
                     </tr>
                     </c:if>
-                    <tr><c:if test=""></c:if>
+                    <tr>
                       <td>Hora: </td><td><c:if test="${requestScope.conta.hora <= 9}">0</c:if>${requestScope.conta.hora}:<c:if test="${requestScope.conta.minuto <= 9}">0</c:if>${requestScope.conta.minuto}:<c:if test="${requestScope.conta.segundo <= 9}">0</c:if>${requestScope.conta.segundo}</td>
                     </tr>
                     <tr>
