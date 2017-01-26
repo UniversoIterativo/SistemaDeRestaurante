@@ -22,5 +22,6 @@ public interface ItemDAO {
 	public ResultSet listItensLeftJoinCardapioByPedido(int pedido);
 	public ResultSet listItemsByPedido(int idPedido);
 	public ResultSet listItemsLastPedido();
+	public ResultSet listItemsByCaixa(String idCaixa);
 
 }

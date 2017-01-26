@@ -1,6 +1,7 @@
 package br.com.administracao.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,14 @@ public class ImpressaoController extends HttpServlet {
 		String acao = request.getParameter("acao");
 
 		if (acao != null && acao.equals("imprimirCaixa")) {
+			this.impressaoSERVICE.imprimirCaixa(request.getParameter("id"));
+			this.impressaoSERVICE.imprimirContasByCaixa(request.getParameter("id"));
+			this.impressaoSERVICE.imprimirItensByCaixa(request.getParameter("id"));
+			//PrintWriter saida = response.getWriter();
+			//saida.println("Confira a Impressora");
+			response.sendRedirect("maincontroller.do");
+		}
+		if (acao != null && acao.equals("imprimirCaixaDiario")) {
 			this.impressaoSERVICE.fechamentoDoCaixaDiario();
 			response.sendRedirect("maincontroller.do");
 		}
@@ -34,6 +43,9 @@ public class ImpressaoController extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 			this.impressaoSERVICE.imprimirConta(request.getParameter("id"));
 			response.sendRedirect("contacontroller.do?acao=fecharConta&id="+id);
+		}
+		if (acao != null && acao.equals("imprimirPedido")) {
+			response.sendRedirect("maincontroller.do");
 		}
 		if (acao != null && acao.equals("imprimirItens")) {
 			this.impressaoSERVICE.imprimirItensLastPedido();

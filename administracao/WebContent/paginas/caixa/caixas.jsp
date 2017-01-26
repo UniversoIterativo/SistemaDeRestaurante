@@ -49,8 +49,8 @@
 				</td>
 				<td class="td-actions">
 					<a href="impressaocontroller.do?acao=imprimirCaixa&id=${caixa.id}"
-						class="btn btn-danger btn-small">
-						<i	class="btn-icon-only icon-remove"> </i>
+						class="btn btn-info btn-small">
+						<i	class="btn-icon-only icon-print"> </i>
 					</a>
 				</td>
 				</tr>

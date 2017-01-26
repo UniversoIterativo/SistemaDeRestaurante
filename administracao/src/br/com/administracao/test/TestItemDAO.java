@@ -1,5 +1,6 @@
 package br.com.administracao.test;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,9 +24,10 @@ public class TestItemDAO {
 		//testListItensLeftJoinCardapioLeftJoinPedido("BAR");
 		//testCollectionListItensLeftJoinCardapioLeftJoinPedido("PIZZARIA");
 		//testListItemsByConta(2);
+		testListItemsByCaixa("2");
 		//testListItemsByLastCaixa();
 	    //testListItensLeftJoinCardapioByLastCaixa();
-		testListItemsLastPedido();
+		//testListItemsLastPedido();
 	}
 
 	public static void testAddItem(){
@@ -98,6 +100,56 @@ public class TestItemDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private static void testListItemsByCaixa(String idCaixa){
+		ItemDAO itemDao = itemDAOImpl;
+		ResultSet resultset = itemDao.listItemsByCaixa(idCaixa);
+		Map<String, List<String>> listItens = new HashMap<String, List<String>>();
+		try {
+			while (resultset.next()) {
+				List<String> itemView = new ArrayList<String>();
+				itemView.add(Integer.toString(resultset.getInt(1)));
+				itemView.add(Integer.toString(resultset.getInt(2)));
+				itemView.add(Integer.toString(resultset.getInt(3)));
+				itemView.add(resultset.getString(4).toString());
+				itemView.add(resultset.getBigDecimal(5).toString());
+				itemView.add(resultset.getString(7));
+				itemView.add(resultset.getString(9));
+				if(listItens.get(resultset.getString(4).toString()) != null){
+					List<String> itemUpdate = listItens.get(resultset.getString(4).toString());
+					itemView.add(Integer.toString(resultset.getInt(6)+Integer.parseInt(itemUpdate.get(7))));
+					BigDecimal existente = new BigDecimal(itemUpdate.get(8));
+					BigDecimal entrada = resultset.getBigDecimal(8);
+					BigDecimal saida = new BigDecimal("0.00");
+					saida = saida.add(existente);
+					saida = saida.add(entrada);
+					itemView.add(saida.toString());
+				} else {
+					itemView.add(Integer.toString(resultset.getInt(6)));
+					itemView.add(resultset.getBigDecimal(8).toString());
+				}
+				listItens.put(resultset.getString(4), itemView);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}// SELECT i.id, i.conta, i.pedido, c.titulo, c.valor, i.quantidade, i.observacao, i.valor, i.tipo
+		for(Map.Entry<String, List<String>> entry : listItens.entrySet()) {
+			//System.out.println(entry.getKey());
+			System.out.println("\n\n\nId:" + entry.getValue().get(0));
+			System.out.println("Caixa:" + entry.getValue().get(1));
+			System.out.println("Conta:" + entry.getValue().get(2));
+			System.out.println("Titulo:" + entry.getValue().get(3));
+			System.out.println("Valor Cardapio:" + entry.getValue().get(4));
+			System.out.println("Observacao:" + entry.getValue().get(5));
+			System.out.println("Tipo:" + entry.getValue().get(6));
+			System.out.println("Quantidade:" + entry.getValue().get(7));
+			System.out.println("Valor Item:" + entry.getValue().get(8));
+			  /*for(String val : entry.getValue()) {
+				  System.out.println(val);
+			  }*/
+			
 		}
 	}
 	

@@ -183,7 +183,7 @@ public class ItemDAOImpl implements ItemDAO {
 	
 	@Override
 	public ResultSet listItemsByConta(int conta) {
-		String sql = "SELECT i.observacao, i.quantidade, i.valor, c.titulo, c.valor, c.setor, i.mesa, i.sequencia, i.tipo FROM item AS i LEFT JOIN cardapio AS c ON i.cardapio = c.id WHERE i.conta = ? AND i.status != 'CANCELADO';";
+		String sql = "SELECT i.observacao, i.quantidade, i.valor, c.titulo, c.valor, c.setor, i.mesa, i.sequencia, i.tipo FROM item AS i LEFT JOIN cardapio AS c ON i.cardapio = c.id WHERE i.conta = ?;";
 		ResultSet resultado = null;
 		try {
 			PreparedStatement preparador = (PreparedStatement) conn.prepareStatement(sql);
@@ -222,6 +222,21 @@ public class ItemDAOImpl implements ItemDAO {
 			System.out.println("Erro ao listar. Mensagem: " + e.getMessage());
 		}
 		return listItens;
+	}
+	
+	@Override
+	public ResultSet listItemsByCaixa(String idCaixa) {
+		String sql = "SELECT i.id, i.conta, i.pedido, c.titulo, c.valor, i.quantidade, i.observacao, i.valor, i.tipo FROM item as i INNER JOIN cardapio as c ON i.cardapio = c.id WHERE i.caixa = ? AND i.status != 'CANCELADO'";
+		ResultSet resultado = null;
+		try {
+			PreparedStatement preparador = (PreparedStatement) conn.prepareStatement(sql);
+			preparador.setInt(1, Integer.parseInt(idCaixa));
+			resultado = preparador.executeQuery();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar. Mensagem: " + e.getMessage());
+		}
+		return resultado;
 	}
 	
 	@Override

@@ -66,7 +66,7 @@ public class PedidoController extends HttpServlet {
 		if (acao != null && acao.equals("updatePedido")) {
 			Pedido pedido = this.pedidoService.getPedidoById(Integer.parseInt(request.getParameter("id")));
 			request.setAttribute("pedido", pedido);
-			Map<String, List<String>> listItens = this.itemService.listItemsByPedido(pedido.getId());
+			Map<String, List<String>> listItens = this.itemService.listItemsByPedido(pedido.getConta());
 			request.setAttribute("listItens", listItens);
 			RequestDispatcher saida = request.getRequestDispatcher("paginas/pedido/pedido.jsp");
 			saida.forward(request, response);

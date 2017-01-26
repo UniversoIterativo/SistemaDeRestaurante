@@ -219,6 +219,41 @@ public class ItemSERVICEImpl implements ItemSERVICE {
 	}
 	
 	@Override
+	public HashMap<String, List<String>>  listItemsByCaixa(String idCaixa) {
+		ResultSet resultset = itemDao.listItemsByCaixa(idCaixa);
+		Map<String, List<String>> listItens = new HashMap<String, List<String>>();
+		try {
+			while (resultset.next()) {
+				List<String> itemView = new ArrayList<String>();
+				itemView.add(Integer.toString(resultset.getInt(1)));
+				itemView.add(Integer.toString(resultset.getInt(2)));
+				itemView.add(Integer.toString(resultset.getInt(3)));
+				itemView.add(resultset.getString(4).toString());
+				itemView.add(resultset.getBigDecimal(5).toString());
+				itemView.add(resultset.getString(7));
+				itemView.add(resultset.getString(9));
+				if(listItens.get(resultset.getString(4).toString()) != null){
+					List<String> itemUpdate = listItens.get(resultset.getString(4).toString());
+					itemView.add(Integer.toString(resultset.getInt(6)+Integer.parseInt(itemUpdate.get(7))));
+					BigDecimal existente = new BigDecimal(itemUpdate.get(8));
+					BigDecimal entrada = resultset.getBigDecimal(8);
+					BigDecimal saida = new BigDecimal("0.00");
+					saida = saida.add(existente);
+					saida = saida.add(entrada);
+					itemView.add(saida.toString());
+				} else {
+					itemView.add(Integer.toString(resultset.getInt(6)));
+					itemView.add(resultset.getBigDecimal(8).toString());
+				}
+				listItens.put(resultset.getString(4), itemView);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (HashMap<String, List<String>>) listItens;
+	}
+	
+	@Override
 	public HashMap<String, List<String>>  listItemsByPedido(int idPedido) {
 		ResultSet resultset = itemDao.listItemsByPedido(idPedido);
 		Map<String, List<String>> listItens = new HashMap<String, List<String>>();

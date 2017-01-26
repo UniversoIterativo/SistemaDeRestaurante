@@ -35,5 +35,6 @@ public interface ItemSERVICE {
 	public ResultSet listResultSetSetor(String setor);
 	public ResultSet listItensLeftJoinCardapioByLastCaixa();
 	public ResultSet listItemsLastPedido();
+	public HashMap<String, List<String>> listItemsByCaixa(String idCaixa);
 	
 }

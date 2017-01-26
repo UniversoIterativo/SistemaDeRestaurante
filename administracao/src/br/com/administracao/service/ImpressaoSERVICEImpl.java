@@ -2,9 +2,12 @@ package br.com.administracao.service;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +19,21 @@ import br.com.administracao.impressora.ImpressoraCozinha;
 import br.com.administracao.impressora.ImpressoraCozinhaImpl;
 import br.com.administracao.impressora.ImpressoraPizzaria;
 import br.com.administracao.impressora.ImpressoraPizzariaImpl;
+import br.com.administracao.model.Caixa;
 import br.com.administracao.model.Cliente;
 import br.com.administracao.model.Conta;
+import br.com.administracao.model.Item;
 import br.com.administracao.model.Pedido;
 import br.com.administracao.model.Usuario;
 
 public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 
+	/**
+	 * IMPORTS de classes
+	 * 
+	 */
+	static CaixaSERVICEImpl caixaSERVICEImpl = new CaixaSERVICEImpl();
+	CaixaSERVICE caixaService = caixaSERVICEImpl;
 	static ContaSERVICEImpl contaSERVICEImpl = new ContaSERVICEImpl();
 	ContaSERVICE contaService = contaSERVICEImpl;
 	static UsuarioSERVICEImpl usuarioSERVICEImpl = new UsuarioSERVICEImpl();
@@ -43,22 +54,41 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 	ImpressoraCozinha impressoraCozinha = impressoraCozinhaImpl;
 	static ImpressoraPizzariaImpl impressoraPizzariaImpl = new ImpressoraPizzariaImpl();
 	ImpressoraPizzaria impressoraPizzaria = impressoraPizzariaImpl;
+	// FIM Imports de classes 
+	
 	
 	@Override
-	public void listaDeComprasAlimentos() {
-		
-	}
-
-	@Override
-	public void listaDeComprasHortFrutti() {
+	public void imprimirItem(Item item) {
 	
 	}
 
 	@Override
-	public void listaDeComprasAcougue() {
-		
+	public void imprimirItensByCaixa(String idCaixa) {
+		HashMap<String, List<String>> itens = itemService.listItemsByCaixa(idCaixa);
+		String	imprimir = "";
+		for(Map.Entry<String, List<String>> entry : itens.entrySet()) {
+			imprimir = imprimir + entry.getKey() + " -> ";
+			//imprimir = imprimir + entry.getValue().get(0) + " - ";
+			//imprimir = imprimir + entry.getValue().get(1) + " - ";
+			//imprimir = imprimir + entry.getValue().get(2) + " - ";
+			//imprimir = imprimir + entry.getValue().get(3) + " - ";
+			imprimir = imprimir + entry.getValue().get(4) + " - ";
+			//imprimir = imprimir + entry.getValue().get(5) + " - ";
+			//imprimir = imprimir + entry.getValue().get(6) + " - ";
+			imprimir = imprimir + entry.getValue().get(7) + " - ";
+			imprimir = imprimir + entry.getValue().get(8) + "\n";
+		}
+		imprimir = imprimir
+                + "\n\n\n\n\n\n\n\n"
+				;
+		this.impressoraCaixa.imprimir(imprimir);
 	}
-
+	
+	@Override
+	public void imprimirPedido(Pedido pedido) {
+		// Pedido
+	}
+	
 	@Override
 	public void imprimirConta(String idconta) {
 		
@@ -72,7 +102,6 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 		/*
 		 * Strings para impressoras
 		 */
-		String impressoraCaixa = "";
 		String impressoraBar = "";
 		String impressoraCozinha = "";
 		String impressoraPizzaria = "";
@@ -256,8 +285,8 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 			imprimir = imprimir + ""
 	                + "__________________________________________________\n"
 					+ "TOTAL:                            R$ " + total + "\n" 
-					+ "FORMA DE PAGAMENTO:        " + pagamento + "\n"
-					+ "RECEBIDO:                      R$ " + recebido + "\n"
+					+ "FORMA DE PAGAMENTO:               " + pagamento + "\n"
+					+ "RECEBIDO:                         R$ " + recebido + "\n"
 					+ "TROCO:                            R$ " + troco + "\n"
 					+ "==================================================\n";
 		
@@ -265,12 +294,14 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 		imprimir = imprimir + ""
 	                + "__________________________________________________\n"
 					+ "VALOR:                            R$ " + valor + "\n"
-					+ "COMISSAO:                      R$ " + comissao + "\n"
+					+ "COMISSAO:                         R$  " + comissao + "\n\n"
 					+ "TOTAL:                            R$ " + total + "\n" 
 					+ "==================================================\n";
 		}
 		imprimir = imprimir + ""
 					+ "\nUSUARIO: " + user   
+					+ "\n"
+					+ "\n"
 					+ "\n"
 					+ "\n"
 					+ "\n"
@@ -290,6 +321,76 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
 		//	this.impressoraPizzaria.imprimir(impressoraPizzaria);
 		}
 		
+	}
+
+	@Override
+	public void imprimirCaixa(String idCaixa) {
+		Caixa caixa = caixaService.getCaixaById(Integer.parseInt(idCaixa));
+		String	imprimir = "RESTAURANTE&PIZZARIA-FEIJAO-DE-CORDA-VILA-PRUDENTE" 
+	                + "\n" + caixa.getDia() + "/" + caixa.getMes() + "/" + caixa.getAno()
+	                + "\n" 
+	                + "\n" + caixa.getValor()
+	                + "\n\n\n"
+					;
+		this.impressoraCaixa.imprimir(imprimir);
+	}
+	@Override
+	public void imprimirContasByCaixa(String idCaixa) {
+		List<Conta> contas = contaService.listContasByCaixa(Integer.parseInt(idCaixa));
+		String	imprimir = "";
+		
+		BigDecimal	dinheiro = new BigDecimal("0.00");
+		BigDecimal	debito = new BigDecimal("0.00");
+		BigDecimal	crediario = new BigDecimal("0.00");
+		BigDecimal	credito = new BigDecimal("0.00");
+		BigDecimal	ticket = new BigDecimal("0.00");
+		BigDecimal	sodexo = new BigDecimal("0.00");
+		BigDecimal	vr = new BigDecimal("0.00");
+		BigDecimal	alelo = new BigDecimal("0.00");
+		BigDecimal	vip = new BigDecimal("0.00");
+		
+		for (Conta conta : contas) {
+			BigDecimal entrada = conta.getValor();
+			if(conta.getPagamento().matches("DINHEIRO")){
+				dinheiro = dinheiro.add(entrada);
+			}
+			if(conta.getPagamento().matches("DEBITO")){
+				debito = debito.add(entrada);
+			}
+			if(conta.getPagamento().matches("CREDIARIO")){
+				crediario = crediario.add(entrada);
+			}
+			if(conta.getPagamento().matches("CREDITO")){
+				credito = credito.add(entrada);
+			}
+			if(conta.getPagamento().matches("TICKET")){
+				ticket = ticket.add(entrada);
+			}
+			if(conta.getPagamento().matches("SODEXO")){
+				sodexo = sodexo.add(entrada);
+			}
+			if(conta.getPagamento().matches("VR")){
+				vr = vr.add(entrada);
+			}
+			if(conta.getPagamento().matches("ALELO")){
+				vr = vr.add(entrada);
+			}
+			if(conta.getPagamento().matches("VIP")){
+				vip = vip.add(entrada);
+			}
+		}
+		imprimir = "\nDINHEIRO: " + dinheiro.toString() 
+		 		   +"\nDEBITO: " + debito.toString() 
+		 		   +"\nCREDIARIO: " + crediario.toString()
+		 		   +"\nCREDITO: " + credito.toString()
+		 		   +"\nTICKET: " + ticket.toString()
+		 		   +"\nSODEXO: " + sodexo.toString()
+		 		   +"\nVR: " + vr.toString()
+		 		   +"\nALELO: " + alelo.toString()
+		 		   +"\nVIP: " + vip.toString()
+				   + "\n\n\n\n\n\n\n\n\n" 
+				   ;
+		this.impressoraCaixa.imprimir(imprimir);
 	}
 	
 	@Override
@@ -475,7 +576,13 @@ public class ImpressaoSERVICEImpl implements ImpressaoSERVICE {
                 ;
         this.impressoraCaixa.imprimir(imprimir);
 	}
+
 	
+	/**
+	 * FUNÇÃO PARA IMPRESSÃO
+	 * @param texto
+	 *
+	 */
 	public void imprime(String texto) {
 		try {
 		     // Abre o Stream da impressora
