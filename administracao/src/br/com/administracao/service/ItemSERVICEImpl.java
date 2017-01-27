@@ -202,9 +202,9 @@ public class ItemSERVICEImpl implements ItemSERVICE {
 				itemView.add(resultset.getString(1));
 				String item_quantidade = Integer.toString(resultset.getInt(2));
 				itemView.add(item_quantidade);
-				itemView.add(resultset.getBigDecimal(5).toString());
-				itemView.add(resultset.getString(4));
 				itemView.add(resultset.getBigDecimal(3).toString());
+				itemView.add(resultset.getString(4));
+				itemView.add(resultset.getBigDecimal(5).toString());
 				itemView.add(resultset.getString(6));
 				itemView.add(Integer.toString(resultset.getInt(7)));
 				itemView.add(Integer.toString(resultset.getInt(8)));

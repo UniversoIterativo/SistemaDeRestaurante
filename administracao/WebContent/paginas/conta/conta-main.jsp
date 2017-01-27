@@ -106,8 +106,8 @@
 		              <td><c:out value="${item.value[3]}"/></td>
 		              <td><c:out value="${item.value[0]}"/></td>
 		              <td class="right"><c:out value="${item.value[1]}"/></td>
-		              <td class="right"><c:out value="${item.value[2]}"/></td>
-		              <td class="right"><strong><c:out value="${item.value[4]}"/></strong></td>
+		              <td class="right"><c:out value="${item.value[4]}"/></td>
+		              <td class="right"><strong><c:out value="${item.value[2]}"/></strong></td>
 		             </tr>
 		             </c:forEach>
                   </tbody>
