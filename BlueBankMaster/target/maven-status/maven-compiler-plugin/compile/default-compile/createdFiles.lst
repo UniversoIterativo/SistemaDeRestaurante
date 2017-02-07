@@ -1,0 +1,13 @@
+com\bluebank\master\service\MovimentacaoService.class
+com\bluebank\master\controller\ContaController.class
+com\bluebank\master\model\Conta.class
+com\bluebank\master\service\MovimentacaoServiceImpl.class
+com\bluebank\master\controller\MovimentacaoController.class
+com\bluebank\master\dao\MovimentacaoDAOImpl.class
+com\bluebank\master\dao\ContaDAO.class
+com\bluebank\master\dao\MovimentacaoDAO.class
+com\bluebank\master\model\Movimentacao.class
+com\bluebank\master\service\ContaServiceImpl.class
+com\bluebank\master\service\ContaService.class
+com\bluebank\master\model\TipoMovimentacao.class
+com\bluebank\master\dao\ContaDAOImpl.class
